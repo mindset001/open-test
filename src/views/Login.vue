@@ -12,14 +12,14 @@
          <h1 class="welcome">Welcome.</h1>
          <p class="login-text">login to your account</p>
 
-
-
+<div role="alert" v-if="error" class="error">
+             {{error}}
+             </div>
+        
 
          <form action="" @submit.prevent="handleSubmit">
 
-             <div>
-             {{error}}
-             </div>
+             
            <input type="text" class="form-control" v-model="username" placeholder="Your Username"> <br>
 
 
@@ -75,31 +75,41 @@
 
 <script>
     import axios from 'axios'
+    
     // import { log } from 'util';
     export default {
       name: 'Login',
+      components: {
+        
+      },
       data() {
         return {
           username: '',
 
-          password: ''  
+          password: '' ,
+          
+          error: ''
         }
       },
       methods: {
         async handleSubmit() {
+          try { 
           
-          var strongRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})");
-          if( strongRegex.test(this.password) ) {
-
+          
+           
+           
+             
             const response = await axios.post('https://safe-chamber-84179.herokuapp.com/opentest/api/login', {
             username: this.username,
             password: this.password
           });
-          console.log(response);
+            console.log(response);
           }
           
           
-
+           catch( e ) {
+            this.error = "Username/Password Invalid"
+          }
 
         
         }
@@ -274,6 +284,13 @@
   }
   .p2{
     margin-left: -50px;
+  }
+  .error{
+    color: red;
+    margin-bottom: 10px;
+    width: 20em;
+    margin-left: 20px;
+
   }
 
 @media screen and (max-width: 480px) {

@@ -16,9 +16,12 @@
          <form action="" @submit.prevent="handleSubmit">
            <input type="text" v-model="username"  placeholder="Your Username"> <br>
 
-
+          
 
            <input type="text" v-model="password" placeholder="Password" style="margin-top: 22px;">
+           <div role="alert" v-if ="error" class="error">
+             {{error}}
+             </div>
            <div class="btn">
              <div >
            <p style="margin">signup with</p>
@@ -72,13 +75,15 @@ export default {
     return {
       username: '',
 
-      password: ''  
+      password: '' ,
+      error: '', 
     }
   },
   methods: {
     async handleSubmit() {
       
-      var strongRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})");
+      try {
+        var strongRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})");
       if( strongRegex.test(this.password) ) {
 
         const response = await axios.post('https://safe-chamber-84179.herokuapp.com/opentest/api/signup', {
@@ -87,11 +92,11 @@ export default {
       });
       console.log(response);
       }
+      } catch(e) {
+        this.error = "Password should consist of at least one Uppercase, one Lowercase, one special character, and one figure."
+      }
       
       
-
-
-    
     }
   }
 }

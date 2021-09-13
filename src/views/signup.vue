@@ -13,8 +13,11 @@
          <p>join us and get the perfect examination <br> experience.</p>
 
 
-         <form action="" @submit.prevent="handleSubmit">
+         <form @submit.prevent="handleSubmit">
+           <input type="text" class="form-control" v-model="email" placeholder="Your Email"> <br>
+
            <input type="text" v-model="username"  placeholder="Your Username"> <br>
+           
 
           
 
@@ -31,7 +34,7 @@
              <img src="https://res.cloudinary.com/mindset/image/upload/v1630392688/entypo-social_linkedin-with-circle_bqww3u.png" alt="" style="width: 40px;height:40px; margin-left:-80px;">
            </div>
          </div>
-             <button  class="two">
+             <button type="submit"  class="two">
                signup
            </button>
            </div>
@@ -74,7 +77,7 @@ export default {
   data() {
     return {
       username: '',
-
+      email: '',
       password: '' ,
       error: '', 
     }
@@ -86,11 +89,13 @@ export default {
         var strongRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})");
       if( strongRegex.test(this.password) ) {
 
-        const response = await axios.post('https://safe-chamber-84179.herokuapp.com/opentest/api/signup', {
+       const res =   await axios.post('https://safe-chamber-84179.herokuapp.com/opentest/api/signup', {
         username: this.username,
+        email: this.email,
         password: this.password
       });
-      console.log(response);
+          localStorage.setItem("token", res.headers["auth-token"])
+            this.$router.push('/profile')
       }
       } catch(e) {
         this.error = "Password should consist of at least one Uppercase, one Lowercase, one special character, and one figure."

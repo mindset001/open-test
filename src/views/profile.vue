@@ -10,7 +10,7 @@
       <div class=" flex">
           <img class=" w-12 h-12 rounded-full " src="@/assets/1.jpg" alt="">
           <div class="flex flex-col justify-center ml-4">
-            <p class=" mb-0 ">Robert fox</p>
+            <p class=" mb-0 ">{{$store.state.user.user}}</p>
             <p class=" text-gray-400 text-xs mt-0">student</p>
           </div>
       </div>

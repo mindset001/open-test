@@ -9,7 +9,7 @@
     
 
        <div class="left">
-         <h1 class="welcome">Welcome.</h1>
+         <h1 class="welcome">Welcome.</h1>   
          <p class="login-text">login to your account</p>
 
 <div role="alert" v-if="error" class="error">
@@ -74,8 +74,8 @@
 
 
 <script>
-    import axios from 'axios'
-    
+    import axios from 'axios';
+    // import    // 
     // import { log } from 'util';
     export default {
       name: 'Login',
@@ -85,7 +85,6 @@
       data() {
         return {
           username: '',
-
           password: '' ,
           
           error: ''
@@ -95,15 +94,14 @@
         async handleSubmit() {
           try { 
           
-          
-           
-           
-             
-            const response = await axios.post('https://safe-chamber-84179.herokuapp.com/opentest/api/login', {
+      
+          const res =  await axios.post('https://safe-chamber-84179.herokuapp.com/opentest/api/login', {
             username: this.username,
             password: this.password
           });
-            console.log(response);
+          localStorage.setItem("token", res.headers["auth-token"])
+            this.$router.push('/profile')
+            
           }
           
           
